@@ -1,6 +1,6 @@
 
 # GAN source code
-import os
+import os, time
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -133,6 +133,7 @@ class GAN():
 
         half_batch = int(batch_size / 2)
 
+        start = time.time()
         for epoch in range(epochs):
 
             # train of discriminator
@@ -177,6 +178,10 @@ class GAN():
             if epoch % save_interval == 0:
                 self.save_imgs(epoch)
 
+        print( "elapsed time: {} [sec]".format(time.time() - start) )
+
+
+
     def save_imgs(self, epoch):
 
         # 生成画像を敷き詰める行数, 列数
@@ -202,6 +207,8 @@ class GAN():
         save_file = os.path.join(save_loc, "mnist_{}.jpg".format(epoch))
         fig.savefig(save_file)
         plt.close()
+
+
 
     def display(self, x):
 
