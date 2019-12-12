@@ -1,11 +1,11 @@
 
-# system file
+# system file -----
 .DS_store
 .vscode
 *~
 __pycache__
 
-# logs
+# media files -----
 *.log
 *model.json
 *model.h5
@@ -14,6 +14,9 @@ __pycache__
 *.png
 *old*
 *.csv
+*.gif
+*.mp4
+
 
 # data
 *.zip
