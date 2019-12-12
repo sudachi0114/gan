@@ -41,6 +41,8 @@ class GAN():
         self.combined.compile(loss='binary_crossentropy',
                               optimizer=optimizer)
 
+        self.global_noise = np.random.normal(0, 1, (5*5, self.z_dims))
+
 
 
     def buildDescriminator(self):
@@ -176,10 +178,30 @@ class GAN():
 
             # 指定↓感覚で生成画像を保存
             if epoch % save_interval == 0:
-                self.save_imgs(epoch)
+                #self.save_imgs(epoch)
+                self.genSingleImg(epoch)
 
         print( "elapsed time: {} [sec]".format(time.time() - start) )
 
+
+
+    def genSingleImg(self, epoch):
+
+
+        gen_img = self.generator.predict(self.global_noise)
+
+        # 生成画像を [0, 1] に rescale
+        gen_img = 0.5*gen_img+0.5
+
+        plt.imshow(gen_img[0, :, :, 0], cmap='gray')
+        plt.axis(False)
+
+        cwd = os.getcwd()
+        save_loc = os.path.join(cwd, "single_images")
+        os.makedirs(save_loc, exist_ok=True)
+        save_file = os.path.join(save_loc, "mnist_{}.jpg".format(epoch))
+        plt.savefig(save_file)
+        plt.close()
 
 
     def save_imgs(self, epoch):
